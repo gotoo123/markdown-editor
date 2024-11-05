@@ -18,7 +18,6 @@ module.exports = {
       },
       {
         test: /\.(css|less)$/i,
-        exclude: /(node_modules)/,
         use: ['style-loader', 'css-loader', 'less-loader']
       }
     ]
@@ -37,6 +36,5 @@ module.exports = {
   output: {
     filename: '[name].bundle.js',
     path: path.resolve(__dirname, 'dist'),
-    clean: true
   }
 }
