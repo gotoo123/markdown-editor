@@ -5,10 +5,12 @@ import './index.less';
 import './styles/github-markdown.css';
 // TODO 动态样式切换
 
-const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement)
+const root = ReactDOM.createRoot(
+  document.getElementById('root') as HTMLElement
+);
 
-root.render (
+root.render(
   <React.StrictMode>
-    <App/>
+    <App />
   </React.StrictMode>
-)
+);

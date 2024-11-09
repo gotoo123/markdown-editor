@@ -1,4 +1,5 @@
-export const mockString = '# 标题一\n' +
+export const mockString =
+  '# 标题一\n' +
   '\n' +
   '## 标题二\n' +
   '\n' +
