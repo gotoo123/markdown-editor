@@ -1,16 +1,62 @@
-import * as React from 'react';
-import * as ReactDOM from 'react-dom/client';
-import App from './App';
+import React, { useState } from 'react';
+import MarkdownIt from 'markdown-it';
+import hljs from 'highlight.js';
+import { mockString } from './mock';
+import 'highlight.js/styles/github.css';
+import FloatBubble from './components/float-bubble';
 import './index.less';
 import './styles/github-markdown.css';
-// TODO 动态样式切换
 
-const root = ReactDOM.createRoot(
-  document.getElementById('root') as HTMLElement
-);
+const md: any = new MarkdownIt({
+  highlight: function (str, lang) {
+    if (lang && hljs.getLanguage(lang)) {
+      try {
+        return (
+          '<pre class="hljs"><code>' +
+          hljs.highlight(lang, str, true).value +
+          '</code></pre>'
+        );
+      } catch (err) {
+        console.log(err);
+      }
+    }
 
-root.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>
-);
+    return (
+      '<pre class="hljs"><code>' + md.utils.escapeHtml(str) + '</code></pre>'
+    );
+  },
+});
+
+const Editor = () => {
+  const [htmlString, setHtmlString] = useState(md.render(mockString));
+  const [collapse, setCollapse] = useState(false);
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    const value = e.target.value;
+    setHtmlString(md.render(value));
+  };
+
+  const handleCollapse = () => {
+    setCollapse(!collapse);
+  };
+
+  return (
+    <div className={'wrapper'}>
+      <textarea
+        style={{ maxWidth: collapse ? '0px' : 'unset' }}
+        defaultValue={mockString}
+        className={'editor'}
+        onChange={handleInputChange}
+      />
+      <div
+        className={'content markdown-body'}
+        dangerouslySetInnerHTML={{ __html: htmlString }}
+      />
+      <FloatBubble>
+        <div onClick={handleCollapse}>{collapse ? '收起' : '展开'}</div>
+      </FloatBubble>
+    </div>
+  );
+};
+
+export default Editor;
