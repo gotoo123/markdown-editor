@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import MarkdownIt from 'markdown-it';
 import hljs from 'highlight.js';
-import { mockString } from './mock';
 import 'highlight.js/styles/github.css';
 import FloatBubble from './components/float-bubble';
 import './index.less';
@@ -28,7 +27,7 @@ const md: any = new MarkdownIt({
 });
 
 const Editor = () => {
-  const [htmlString, setHtmlString] = useState(md.render(mockString));
+  const [htmlString, setHtmlString] = useState(md.render(''));
   const [collapse, setCollapse] = useState(false);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
@@ -44,7 +43,7 @@ const Editor = () => {
     <div className={'wrapper'}>
       <textarea
         style={{ maxWidth: collapse ? '0px' : 'unset' }}
-        defaultValue={mockString}
+        defaultValue={''}
         className={'editor'}
         onChange={handleInputChange}
       />

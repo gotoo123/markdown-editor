@@ -18,7 +18,7 @@ function buildES() {
   });
   return gulp
     .src(['src/**/*.{ts,tsx}'], {
-      ignore: ['**/demos/**/*', '**/tests/**/*'],
+      ignore: ['**/demos/**/*', '**/tests/**/*', '**/mock/**/*'],
     })
     .pipe(tsProject)
     .pipe(
@@ -54,7 +54,7 @@ function buildDeclaration() {
   });
   return gulp
     .src(['src/**/*.{ts,tsx}'], {
-      ignore: ['**/demos/**/*', '**/tests/**/*'],
+      ignore: ['**/demos/**/*', '**/tests/**/*', '**/mock/**/*'],
     })
     .pipe(tsProject)
     .pipe(gulp.dest('es/'))
@@ -63,7 +63,7 @@ function buildDeclaration() {
 
 function buildStyle() {
   return gulp
-    .src(['./src/**/*.less'], {
+    .src(['./src/**/*.(le|c)ss'], {
       base: './src/',
       ignore: ['**/demos/**/*', '**/tests/**/*', '*.patch.less'],
     })
