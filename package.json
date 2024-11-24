@@ -1,5 +1,5 @@
 {
-  "name": "markdown-editor",
+  "name": "@gotoo/markdown-editor",
   "version": "1.0.0",
   "files": [
     "es",
