@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import MarkdownIt from 'markdown-it';
 import hljs from 'highlight.js';
-import 'highlight.js/styles/github.css';
 import FloatBubble from './components/float-bubble';
 import './index.less';
 import './styles/github-markdown.css';
+import 'highlight.js/styles/github.css';
 
 const md: any = new MarkdownIt({
   highlight: function (str, lang) {
@@ -26,12 +26,21 @@ const md: any = new MarkdownIt({
   },
 });
 
-const Editor = () => {
-  const [htmlString, setHtmlString] = useState(md.render(''));
+interface EditorProps {
+  value?: string;
+  defaultValue?: string;
+  onChange?: (value: string, htmlValue: string) => void;
+}
+
+const Editor = (props: EditorProps) => {
+  const { onChange, defaultValue } = props;
+
+  const [htmlString, setHtmlString] = useState(md.render(defaultValue || ''));
   const [collapse, setCollapse] = useState(false);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     const value = e.target.value;
+    onChange?.(value, md.render(value));
     setHtmlString(md.render(value));
   };
 
@@ -42,8 +51,8 @@ const Editor = () => {
   return (
     <div className={'wrapper'}>
       <textarea
-        style={{ maxWidth: collapse ? '0px' : 'unset' }}
-        defaultValue={''}
+        style={{ display: collapse ? 'none' : 'block' }}
+        defaultValue={defaultValue}
         className={'editor'}
         onChange={handleInputChange}
       />
@@ -52,7 +61,16 @@ const Editor = () => {
         dangerouslySetInnerHTML={{ __html: htmlString }}
       />
       <FloatBubble>
-        <div onClick={handleCollapse}>{collapse ? '收起' : '展开'}</div>
+        <div
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+          }}
+          onClick={handleCollapse}
+        >
+          {collapse ? '+' : '-'}
+        </div>
       </FloatBubble>
     </div>
   );
